@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger
-} from '@/components/ui/tooltip';
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function CommandHint() {
   const [isMac, setIsMac] = useState(true);
@@ -27,14 +27,14 @@ export default function CommandHint() {
         <TooltipTrigger asChild>
           <span
             tabIndex={0}
-            className="text-white inline-flex justify-center items-center gap-1"
+            className="inline-flex items-center justify-center gap-1 text-black"
           >
-            <span className="text-xs">{isMac ? '⌘' : 'ctrl'}</span>
+            <span className="text-xs">{isMac ? "⌘" : "ctrl"}</span>
             <span>K</span>
           </span>
         </TooltipTrigger>
         <TooltipContent>
-          <p className="text-white">{`Press ${isMac ? 'command' : 'control'} and 'K' to open the command palette`}</p>
+          <p className="text-black">{`Press ${isMac ? "command" : "control"} and 'K' to open the command palette`}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

@@ -10,7 +10,6 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
 } from "@/components/ui/command";
 import { localesByCode, SupportedLocale, supportedLocales } from "@/i18n";
 import { usePathname, useRouter } from "@/navigation";
@@ -26,7 +25,6 @@ import {
   SettingsIcon,
   SunIcon,
 } from "lucide-react";
-import { set } from "date-fns";
 
 type CommandPaletteProps = {
   links: NavLinks;

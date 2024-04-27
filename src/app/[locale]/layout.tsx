@@ -1,22 +1,14 @@
 import { SupportedLocale } from "@/i18n";
-import { cn } from "@/lib/style";
-import "@/styles/globals.css";
 import pick from "just-pick";
 import { NextIntlClientProvider, useMessages } from "next-intl";
 
+import { cn } from "@/lib/style";
 import { Inter } from "next/font/google";
-import { cloneElement, isValidElement } from "react";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
 });
-
-export const metadata = {
-  title: "Devhaus Learning Platform",
-  description: "The Devhaus Learning Platform",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
-};
 
 interface ServerRootLayoutProps {
   params: { locale: SupportedLocale };
@@ -24,6 +16,8 @@ interface ServerRootLayoutProps {
     props: ServerRootLayoutProps["params"];
   };
 }
+
+const devMode = true;
 
 export default function ServerRootLayout({
   children,
@@ -33,10 +27,10 @@ export default function ServerRootLayout({
   const messages = useMessages();
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning={devMode}>
       <body
         className={cn(
-          "bg-offwhite flex min-h-screen flex-col items-center justify-center font-sans antialiased",
+          "bg-offwhite flex h-full min-h-screen flex-col items-center justify-center font-sans antialiased",
           inter.variable,
         )}
       >
@@ -44,9 +38,7 @@ export default function ServerRootLayout({
           messages={pick(messages, ["UI"])}
           locale={locale}
         >
-          {isValidElement(children)
-            ? cloneElement(children, { params })
-            : children}
+          {children}
         </NextIntlClientProvider>
       </body>
     </html>

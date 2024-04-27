@@ -2,24 +2,22 @@
 
 import { CommandPalette } from "@/components/layout-navigation/commandPalette";
 import useLinks from "@/components/layout-navigation/useLinks";
-import ProvidersClient from "@/components/providersClient";
 import { SupportedLocale } from "@/i18n";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "next-themes";
 import { useState } from "react";
 
+import "@/styles/globals.css";
+import Navbar from "@/components/layout-navigation/navbar";
+
 type ClientRootLayoutProps = {
   children: React.ReactNode;
-  params: {
-    locale: SupportedLocale;
-  };
 };
 
-export default function ClientRootLayout({
-  children,
-  params: { locale },
-}: ClientRootLayoutProps) {
+const devMode = true;
+
+export default function ClientRootLayout({ children }: ClientRootLayoutProps) {
   const links = useLinks();
 
   const [queryClient] = useState(
@@ -39,9 +37,8 @@ export default function ClientRootLayout({
         <ThemeProvider enableSystem={true} attribute="class">
           {children}
           <CommandPalette links={links} />
+          {/* {devMode && <ReactQueryDevtools initialIsOpen={false} />} */}
         </ThemeProvider>
-        {/* make dependent on dev mode */}
-        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </>
   );
