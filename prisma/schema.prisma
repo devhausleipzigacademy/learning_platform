@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider  = "postgresql"
+    url       = env("DATABASE_URL")
+    directUrl = env("DIRECT_URL")
+}
+
+model Topic {
+    id          String   @id @default(cuid())
+    title       String
+    description String?
+    modules     Module[]
+}
+
+model Module {
+    id          String   @id @default(cuid())
+    title       String
+    description String?
+    topics      Topic[]
+    parent      Module?  @relation("module_parent", fields: [parentId], references: [id])
+    parentId    String?
+    Module      Module[] @relation("module_parent")
+}
+
+// model Material {
+//   id          String                @id @default(cuid())
+//   title       String
+//   url         String
+//   description String?
+//   modules     MaterialModuleTopic[] @relation("material_module", fields: [id], references: [materialId])
+//   topics      MaterialModuleTopic[] @relation("material_topic", fields: [id], references: [topicId])
+// }
+
+// model MaterialModuleTopic {
+//   id         String   @id @default(cuid())
+//   material   Material @relation(fields: [materialId], references: [id])
+//   materialId String
+//   module     Module?  @relation(fields: [moduleId], references: [id])
+//   moduleId   String?
+//   topic      Topic?   @relation(fields: [topicId], references: [id])
+//   topicId    String?
+//   Material   Material @relation(fields: [materialId], references: [id])
+// }
