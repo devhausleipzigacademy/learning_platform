@@ -13,10 +13,14 @@ export default createMiddleware({
   alternateLinks: true
 });
 
+////////////////////////
+////////////////////////
 // can't use this because Nextjs doesn't support non-static matching pattern strings in the config object; have to manually add the supported locales as static string below
 const localizedPaths = supportedLocales.map((locale) => {
   return `/${locale}/:path*`;
 });
+////////////////////////
+////////////////////////
 
 export const config = {
   matcher: ['/', `/(de|en-GB)/:path*`]
