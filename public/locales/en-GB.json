@@ -1,0 +1,9 @@
+{
+  "UI": {
+    "languagePicker": {
+      "placeholder": "Select language",
+      "noResults": "No results"
+    },
+    "navLinks": {}
+  }
+}
