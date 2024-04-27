@@ -1,3 +1,5 @@
+"use client";
+
 import { useLocale } from "next-intl";
 import { useEffect, useState } from "react";
 
@@ -24,6 +26,7 @@ import {
   SettingsIcon,
   SunIcon,
 } from "lucide-react";
+import { set } from "date-fns";
 
 type CommandPaletteProps = {
   links: NavLinks;
@@ -63,6 +66,10 @@ export function CommandPalette({ links }: CommandPaletteProps) {
     return () => document.removeEventListener("keydown", down);
   }, []);
 
+  function determineInclusion(pageName: string) {
+    return (!page && search !== "") || (page && page === pageName);
+  }
+
   return (
     <Dialog open={cmdShow} onOpenChange={setCmdShow}>
       <DialogContent className="h-[50vh] w-[50vw] p-0">
@@ -82,7 +89,7 @@ export function CommandPalette({ links }: CommandPaletteProps) {
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
 
-            {!page && (
+            {!page && search === "" && (
               <>
                 <CommandGroup heading="Shortcut Groups">
                   <CommandItem
@@ -103,7 +110,7 @@ export function CommandPalette({ links }: CommandPaletteProps) {
               </>
             )}
 
-            {page === "settings" && (
+            {determineInclusion("settings") && (
               <>
                 <CommandGroup heading="Settings">
                   <CommandItem
@@ -126,12 +133,14 @@ export function CommandPalette({ links }: CommandPaletteProps) {
               </>
             )}
 
-            {page === "theme" && (
+            {determineInclusion("theme") && (
               <>
                 <CommandGroup heading="Theme">
                   <CommandItem
                     onSelect={() => {
                       theme.setTheme("dark");
+                      setCmdShow(false);
+                      setPages([]);
                     }}
                   >
                     <MoonIcon className="mr-2 h-4 w-4" />
@@ -140,6 +149,8 @@ export function CommandPalette({ links }: CommandPaletteProps) {
                   <CommandItem
                     onSelect={() => {
                       theme.setTheme("light");
+                      setCmdShow(false);
+                      setPages([]);
                     }}
                   >
                     <SunIcon className="mr-2 h-4 w-4" />
@@ -149,7 +160,7 @@ export function CommandPalette({ links }: CommandPaletteProps) {
               </>
             )}
 
-            {page === "language" && (
+            {determineInclusion("language") && (
               <>
                 <CommandGroup heading="Language">
                   {Object.values(supportedLocales).map((supportedLocale) => {
@@ -164,6 +175,7 @@ export function CommandPalette({ links }: CommandPaletteProps) {
                             locale: supportedLocale,
                           });
                           setCmdShow(false);
+                          setPages([]);
                         }}
                       >
                         <span className="mr-2 h-4 w-4">{locale.icon}</span>
@@ -175,7 +187,7 @@ export function CommandPalette({ links }: CommandPaletteProps) {
               </>
             )}
 
-            {page === "navigation" && (
+            {determineInclusion("navigation") && (
               <>
                 {links.locations.length > 0 && (
                   <CommandGroup heading="Navigation">
@@ -197,6 +209,7 @@ export function CommandPalette({ links }: CommandPaletteProps) {
                                 `${link.type === "withAnchor" ? "#" + link.intlAnchor : ""}`,
                             );
                             setCmdShow(false);
+                            setPages([]);
                           }}
                         >
                           <ArrowDownRightIcon className="mr-2 h-4 w-4" />
