@@ -9,7 +9,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="flex w-full flex-grow flex-col items-center justify-center border border-black">
+      <nav className="border-dark flex w-full flex-grow flex-col items-center justify-center border">
         <div className="w-full flex-grow bg-slate-400"></div>
         <ul className="flex h-[10%] w-full items-center justify-around">
           <li>

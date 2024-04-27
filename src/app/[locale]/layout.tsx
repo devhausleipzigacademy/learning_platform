@@ -30,7 +30,7 @@ export default function ServerRootLayout({
     <html lang={locale} suppressHydrationWarning={devMode}>
       <body
         className={cn(
-          "bg-offwhite flex h-full min-h-screen flex-col items-center justify-center font-sans antialiased",
+          "bg-light dark:bg-dark text-dark dark:text-light flex h-full min-h-screen flex-col items-center justify-center font-sans antialiased",
           inter.variable,
         )}
       >
