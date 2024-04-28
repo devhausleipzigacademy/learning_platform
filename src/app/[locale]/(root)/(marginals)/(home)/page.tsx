@@ -1,4 +1,3 @@
-import Navbar from '@/components/layout-navigation/navbar';
 import HeartBeat from '@/components/ui/heartBeat';
 import { HeartIcon } from 'lucide-react';
 

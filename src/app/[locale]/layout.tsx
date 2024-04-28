@@ -15,9 +15,10 @@ const inter = Inter({
 });
 
 export const themeMap = defaultLocaleText.ui.themePicker.themeMap;
-export const supportedThemes = Object.keys(themeMap) as unknown as UnionToTuple<
-  keyof typeof themeMap
->;
+export const supportedThemes = [
+  ...(Object.keys(themeMap) as unknown as UnionToTuple<keyof typeof themeMap>),
+  'system'
+] as const;
 
 interface ServerRootLayoutProps {
   params: { locale: SupportedLocale };
