@@ -17,6 +17,7 @@ interface ServerRootLayoutProps {
   };
 }
 
+// pull from envs
 const devMode = true;
 
 export default function ServerRootLayout({
@@ -27,10 +28,14 @@ export default function ServerRootLayout({
   const messages = useMessages();
 
   return (
-    <html lang={locale} suppressHydrationWarning={devMode}>
+    <html
+      className={cn("nightwind", devMode && "debug-screens")}
+      lang={locale}
+      suppressHydrationWarning={devMode}
+    >
       <body
         className={cn(
-          "bg-light dark:bg-dark text-dark dark:text-light flex h-full min-h-screen flex-col items-center justify-center font-sans antialiased",
+          "bg-light-500 dark:bg-dark-500 text-dark-500 dark:text-light-500 flex h-full min-h-screen flex-col items-center justify-center font-sans antialiased",
           inter.variable,
         )}
       >

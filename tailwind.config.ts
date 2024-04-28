@@ -1,16 +1,25 @@
-import { tr } from "date-fns/locale";
 import type { Config } from "tailwindcss";
+
+import plugin from "tailwindcss/plugin";
 
 const config = {
   darkMode: ["class"],
-  content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
-  ],
+  content: ["./src/**/*.{ts,tsx}"],
   prefix: "",
   theme: {
+    nightwind: {
+      typography: true,
+      colorClasses: [
+        "gradient",
+        "ring",
+        "ring-offset",
+        "divide",
+        "placeholder",
+      ],
+    },
+    variants: {
+      nightwind: ["group-hover", "active", "focus"],
+    },
     colors: {
       black: {
         "500": "#000000",
@@ -82,7 +91,17 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/forms"),
+    require("@tailwindcss/aspect-ratio"),
+    require("@tailwindcss/container-queries"),
+    require("tailwindcss-animate"),
+    require("tailwindcss-elevation"),
+    require("tailwindcss-hero-patterns"),
+    require("tailwindcss-debug-screens"),
+    require("nightwind"),
+  ],
 } satisfies Config;
 
 export default config;

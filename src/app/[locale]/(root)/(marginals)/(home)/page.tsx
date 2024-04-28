@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function HomePage() {
   return (
-    <main className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+    <main className="heropattern-topography-black-500/90 dark:heropattern-topography-white-500/50 flex h-full w-full flex-col items-center justify-center text-white opacity-10">
       <div></div>
     </main>
   );

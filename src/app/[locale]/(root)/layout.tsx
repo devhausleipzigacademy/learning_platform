@@ -15,6 +15,7 @@ type ClientRootLayoutProps = {
   children: React.ReactNode;
 };
 
+// pull from envs
 const devMode = true;
 
 export default function ClientRootLayout({ children }: ClientRootLayoutProps) {
@@ -34,7 +35,13 @@ export default function ClientRootLayout({ children }: ClientRootLayoutProps) {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider enableSystem={true} attribute="class">
+        <ThemeProvider
+          enableSystem
+          enableColorScheme
+          attribute="class"
+          storageKey="nightwind-mode"
+          themes={["light", "dark"] as const}
+        >
           {children}
           <CommandPalette links={links} />
           {/* {devMode && <ReactQueryDevtools initialIsOpen={false} />} */}
