@@ -10,7 +10,7 @@ export default function MarginalsClientLayout({
   return (
     <>
       <div className="flex w-full flex-grow items-start justify-center">
-        <div className="border-primary flex h-screen w-[15%] flex-col items-center justify-center border-r-2">
+        <div className="border-primary flex h-screen w-[15%] flex-shrink-0 flex-col items-center justify-center border-r-2">
           <Navbar />
         </div>
         <div className="flex h-screen flex-grow flex-col items-center justify-start">

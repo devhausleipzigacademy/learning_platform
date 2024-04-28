@@ -17,7 +17,7 @@ export default function HomePage() {
               key={idx}
               className="bg-black/70 h-[200px] w-full rounded-2xl p-2 transition-all duration-700 hover:rounded-none"
             >
-              <div className="light:text-white dark:text-dark bg-primary/70 dark:shadow-accent2/70 light:shadow-dark flex h-full w-full flex-col items-center justify-between rounded-md p-2 transition-all duration-700 hover:scale-105 hover:rounded-2xl hover:shadow-md">
+              <div className="light:text-white dark:text-dark bg-primary/70 dark:shadow-accent2/70 light:shadow-dark flex h-full w-full flex-col items-center justify-between rounded-md p-2 transition-all duration-700 hover:rounded-2xl hover:shadow-md">
                 <h3 className="flex w-full items-center justify-center text-2xl font-bold">
                   Entity {idx + 1}
                 </h3>
