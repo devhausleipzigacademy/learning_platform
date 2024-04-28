@@ -7,7 +7,7 @@ const config = {
   theme: {
     colors: {
       black: '#000000',
-      white: '#ffffff',
+      white: '#FFFFFF',
       danger: '#eb3011',
       warning: '#dece22',
       success: '#23a76b',

@@ -15,10 +15,11 @@ const inter = Inter({
 });
 
 export const themeMap = defaultLocaleText.ui.themePicker.themeMap;
-export const supportedThemes = [
-  ...(Object.keys(themeMap) as unknown as UnionToTuple<keyof typeof themeMap>),
-  'system'
-] as const;
+export const supportedThemes = Object.keys(themeMap) as unknown as UnionToTuple<
+  keyof typeof themeMap
+>;
+
+export type SupportedTheme = (typeof supportedThemes)[number] | 'system';
 
 interface ServerRootLayoutProps {
   params: { locale: SupportedLocale };
@@ -45,7 +46,7 @@ export default function ServerRootLayout({
     >
       <body
         className={cn(
-          'light:text-dark light:bg-light dark:text-light dark:bg-dark flex h-full min-h-screen flex-col items-center justify-center font-sans antialiased',
+          'light:text-dark light:bg-light dark:text-light dark:bg-dark -z-10 flex h-full min-h-screen flex-col items-center justify-center font-sans antialiased transition-all duration-700',
           inter.variable
         )}
       >
