@@ -1,9 +1,23 @@
 {
-  "UI": {
+  "ui": {
+    "themePicker": {
+      "placeholder": "Thema auswählen",
+      "themeMap": {
+        "light": { "label": "Hell", "aria": "Zu hellem Modus wechseln" },
+        "dark": { "label": "Dunkel", "aria": "Zu dunklem Modus wechseln" }
+      }
+    },
     "languagePicker": {
+      "aria": "Sprache auswählen",
       "placeholder": "Sprache auswählen",
       "noResults": "Keine Ergebnisse"
     },
+    "commandPalette": {
+      "hint": "Drücke {symbol} und 'K', um die Befehlspalette zu öffnen"
+    },
     "navLinks": {}
+  },
+  "images": {
+    "devhaus-logo": "Logo von Devhaus Leipzig"
   }
 }

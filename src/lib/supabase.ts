@@ -1,39 +1,39 @@
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { Dispatch, SetStateAction } from "react";
+import { SupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { Dispatch, SetStateAction } from 'react';
 
-import { b64DecodeUnicode, b64EncodeUnicode } from "./base64";
-import { digestFile } from "./crypto";
+import { b64DecodeUnicode, b64EncodeUnicode } from './base64';
+import { digestFile } from './crypto';
 
 const supabaseApiUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
 export async function getFileUrl({
-	supabase,
-	bucket,
-	path,
-	searchTerm
+  supabase,
+  bucket,
+  path,
+  searchTerm
 }: {
-	supabase: SupabaseClient<any, "public", any> | undefined;
-	bucket: string;
-	searchTerm: string;
-	path: string;
+  supabase: SupabaseClient<any, 'public', any> | undefined;
+  bucket: string;
+  searchTerm: string;
+  path: string;
 }) {
-	if (supabase) {
-		const { data: foundFile, error } = await supabase.storage
-			.from(bucket)
-			.list(path, {
-				limit: 1,
-				offset: 0,
-				search: searchTerm,
-				sortBy: { column: "updated_at", order: "desc" }
-			});
-		if (foundFile && foundFile[0]) {
-			const { data } = await supabase.storage
-				.from(bucket)
-				.getPublicUrl(foundFile[0].name);
-			if (data) return data.publicUrl;
-		}
-	}
+  if (supabase) {
+    const { data: foundFile, error } = await supabase.storage
+      .from(bucket)
+      .list(path, {
+        limit: 1,
+        offset: 0,
+        search: searchTerm,
+        sortBy: { column: 'updated_at', order: 'desc' }
+      });
+    if (foundFile && foundFile[0]) {
+      const { data } = await supabase.storage
+        .from(bucket)
+        .getPublicUrl(foundFile[0].name);
+      if (data) return data.publicUrl;
+    }
+  }
 }
 
 // export async function getFilesUrls({
@@ -73,87 +73,87 @@ export async function getFileUrl({
 // }
 
 export async function getBucketList({
-	supabase,
-	bucket,
-	path,
-	sortBy,
-	order,
-	limit = 50,
-	offset = 0
+  supabase,
+  bucket,
+  path,
+  sortBy,
+  order,
+  limit = 50,
+  offset = 0
 }: {
-	supabase: SupabaseClient<any, "public", any>;
-	bucket: string;
-	sortBy: "name" | "size" | "last_accessed_at" | "created_at" | "updated_at";
-	order: "asc" | "desc";
-	limit?: number;
-	offset?: number;
-	path: string;
+  supabase: SupabaseClient<any, 'public', any>;
+  bucket: string;
+  sortBy: 'name' | 'size' | 'last_accessed_at' | 'created_at' | 'updated_at';
+  order: 'asc' | 'desc';
+  limit?: number;
+  offset?: number;
+  path: string;
 }) {
-	const { data: fileFolders, error } = await supabase.storage
-		.from(bucket)
-		.list(path, {
-			limit: limit,
-			offset: offset,
-			sortBy: { column: sortBy, order: order }
-		});
+  const { data: fileFolders, error } = await supabase.storage
+    .from(bucket)
+    .list(path, {
+      limit: limit,
+      offset: offset,
+      sortBy: { column: sortBy, order: order }
+    });
 
-	if (error) console.log(error);
+  if (error) console.log(error);
 
-	if (fileFolders) {
-		const files = await Promise.all(
-			fileFolders!.map(async (folder) => {
-				const { data: files, error } = await supabase.storage
-					.from(bucket)
-					.list(`${path}/${folder.name}`, {
-						limit: limit,
-						offset: offset,
-						sortBy: { column: sortBy, order: order }
-					});
+  if (fileFolders) {
+    const files = await Promise.all(
+      fileFolders!.map(async folder => {
+        const { data: files, error } = await supabase.storage
+          .from(bucket)
+          .list(`${path}/${folder.name}`, {
+            limit: limit,
+            offset: offset,
+            sortBy: { column: sortBy, order: order }
+          });
 
-				if (error) console.log(error);
+        if (error) console.log(error);
 
-				if (files) {
-					return files.map((file) => {
-						return {
-							file: file,
-							url: `${supabaseApiUrl}/storage/v1/object/public/${bucket}/${path}/${folder.name}/${file.name}`,
-							decodedName: `${file.name.slice(
-								0,
-								16
-							)}-${b64DecodeUnicode(folder.name)}`
-						};
-					});
-				}
+        if (files) {
+          return files.map(file => {
+            return {
+              file: file,
+              url: `${supabaseApiUrl}/storage/v1/object/public/${bucket}/${path}/${folder.name}/${file.name}`,
+              decodedName: `${file.name.slice(
+                0,
+                16
+              )}-${b64DecodeUnicode(folder.name)}`
+            };
+          });
+        }
 
-				return [];
-			})
-		);
+        return [];
+      })
+    );
 
-		if (files) {
-			return files.flat();
-		}
+    if (files) {
+      return files.flat();
+    }
 
-		return [];
-	}
+    return [];
+  }
 
-	return [];
+  return [];
 }
 
 export async function removeFile({
-	supabase,
-	bucket,
-	path,
-	fileName
+  supabase,
+  bucket,
+  path,
+  fileName
 }: {
-	supabase: SupabaseClient<any, "public", any>;
-	bucket: string;
-	path: string;
-	fileName: string;
+  supabase: SupabaseClient<any, 'public', any>;
+  bucket: string;
+  path: string;
+  fileName: string;
 }) {
-	const { error } = await supabase.storage
-		.from(bucket)
-		.remove([`${path}/${fileName}`]);
-	if (error) throw Error;
+  const { error } = await supabase.storage
+    .from(bucket)
+    .remove([`${path}/${fileName}`]);
+  if (error) throw Error;
 }
 
 // export async function checkForFile({
@@ -185,32 +185,32 @@ export async function removeFile({
 // }
 
 export async function uploadFile({
-	handler,
-	bucket,
-	path,
-	file
+  handler,
+  bucket,
+  path,
+  file
 }: {
-	handler: (
-		bucket: string,
-		path: string,
-		b64name: string,
-		digest: string,
-		file: File
-	) => Promise<string>;
-	bucket: string;
-	path: string;
-	file: File;
+  handler: (
+    bucket: string,
+    path: string,
+    b64name: string,
+    digest: string,
+    file: File
+  ) => Promise<string>;
+  bucket: string;
+  path: string;
+  file: File;
 }) {
-	const digest = digestFile(file);
-	const b64name = b64EncodeUnicode(file.name);
+  const digest = digestFile(file);
+  const b64name = b64EncodeUnicode(file.name);
 
-	const url = await handler(bucket, path, b64name, await digest, file);
+  const url = await handler(bucket, path, b64name, await digest, file);
 
-	return {
-		url: url,
-		file: file,
-		b64name: b64name
-	};
+  return {
+    url: url,
+    file: file,
+    b64name: b64name
+  };
 }
 
 // export async function uploadFile(
@@ -257,15 +257,15 @@ export async function uploadFile({
 // }
 
 export async function downloadFile(url: string, name: string) {
-	const response = await fetch(url);
-	const data = await response.blob();
+  const response = await fetch(url);
+  const data = await response.blob();
 
-	const internalUrl = window.URL.createObjectURL(data);
-	const linkElement = document.createElement("a");
-	linkElement.href = internalUrl;
-	linkElement.download = name;
-	document.body.appendChild(linkElement);
-	linkElement.click();
-	document.body.removeChild(linkElement);
-	window.URL.revokeObjectURL(internalUrl);
+  const internalUrl = window.URL.createObjectURL(data);
+  const linkElement = document.createElement('a');
+  linkElement.href = internalUrl;
+  linkElement.download = name;
+  document.body.appendChild(linkElement);
+  linkElement.click();
+  document.body.removeChild(linkElement);
+  window.URL.revokeObjectURL(internalUrl);
 }

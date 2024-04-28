@@ -1,40 +1,35 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  TooltipTrigger
+} from '@/components/ui/tooltip';
+import { useTranslations } from 'next-intl';
+import useCheckIfMac from '@/lib/hooks/useCheckIfMac';
 
 export default function CommandHint() {
-  const [isMac, setIsMac] = useState(true);
-
-  useEffect(() => {
-    try {
-      if (window) {
-        const test = /mac/i.test(navigator.userAgent || navigator.platform);
-        setIsMac(test);
-      }
-    } catch (error) {}
-  }, []);
+  const t = useTranslations();
+  const isMac = useCheckIfMac();
 
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger asChild>
-          <span
-            tabIndex={0}
-            className="inline-flex items-center justify-center gap-1 text-black"
-          >
-            <span className="text-xs">{isMac ? "⌘" : "ctrl"}</span>
+        <TooltipTrigger
+          asChild
+          tabIndex={0}
+          className="text-info inline-flex items-center justify-center gap-1"
+        >
+          <span>
+            <span className="text-xs">{isMac ? '⌘' : 'ctrl'}</span>
             <span>K</span>
           </span>
         </TooltipTrigger>
-        <TooltipContent>
-          <p className="text-black">{`Press ${isMac ? "command" : "control"} and 'K' to open the command palette`}</p>
+        <TooltipContent className="dark:text-dark dark:bg-light light:text-light light:bg-dark rounded-md px-2 py-1">
+          <p>{t('ui.commandPalette.hint', { symbol: isMac ? '⌘' : 'ctrl' })}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import { CheckIcon, ChevronDownIcon, LanguagesIcon } from "lucide-react";
-import { useLocale } from "next-intl";
-import { useState } from "react";
+import { CheckIcon, ChevronDownIcon, LanguagesIcon } from 'lucide-react';
+import { useLocale } from 'next-intl';
+import { useState } from 'react';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
+  CommandItem
+} from '@/components/ui/command';
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { localesByCode, SupportedLocale, supportedLocales } from "../../i18n";
-import { cn } from "@/lib/style";
-import { usePathname, useRouter } from "@/navigation";
-import { CommandList } from "cmdk";
+  PopoverTrigger
+} from '@/components/ui/popover';
+import { localesByCode, SupportedLocale, supportedLocales } from '../../i18n';
+import { cn } from '@/lib/style';
+import { usePathname, useRouter } from '@/navigation';
+import { CommandList } from 'cmdk';
 
 const testSupportedLocales = [...supportedLocales];
 
@@ -28,10 +28,12 @@ export default function LanguagePicker({
   className,
   placeholderText,
   noResultsText,
+  ariaLabel
 }: {
   className?: string;
   placeholderText: string;
   noResultsText: string;
+  ariaLabel: string;
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -39,7 +41,7 @@ export default function LanguagePicker({
 
   const [open, setOpen] = useState(false);
   const [currentLocale, setCurrentLocale] = useState(
-    localesByCode[currentLocaleCode],
+    localesByCode[currentLocaleCode]
   );
 
   try {
@@ -53,13 +55,17 @@ export default function LanguagePicker({
                 variant="outline"
                 role="combobox"
                 aria-expanded={open}
-                className={cn("w-[100px]", className)}
+                aria-label={ariaLabel}
+                className={cn(
+                  'light:text-dark light:bg-light dark:text-light dark:bg-dark w-[100px]',
+                  className
+                )}
               >
                 <span className="inline-flex items-center justify-around gap-2 overflow-hidden">
                   <span
                     className={cn(
-                      "mr-2 transition-all duration-500",
-                      open && "rotate-6 text-green-700",
+                      'mr-2 transition-all duration-500',
+                      open && 'text-green-700 rotate-6'
                     )}
                   >
                     <LanguagesIcon className="h-6 w-6" />
@@ -71,7 +77,7 @@ export default function LanguagePicker({
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[200px] p-0">
-              <Command className="relative max-h-[300px] overflow-hidden">
+              <Command className="light:text-dark light:bg-light dark:text-light dark:bg-dark relative max-h-[300px] overflow-hidden">
                 {testSupportedLocales.length > 8 && (
                   <>
                     <CommandInput placeholder={placeholderText} />
@@ -80,28 +86,28 @@ export default function LanguagePicker({
                 )}
                 <CommandList>
                   <CommandGroup className="h-max overflow-auto">
-                    {testSupportedLocales.map((supportedLocale) => {
+                    {testSupportedLocales.map(supportedLocale => {
                       const locale = localesByCode[supportedLocale];
 
                       return (
                         <CommandItem
-                          className="flex justify-between hover:bg-black/10"
+                          className="light:hover:bg-black/10 dark:hover:bg-white/10 flex justify-between"
                           key={supportedLocale}
                           value={locale.label}
                           onSelect={() => {
                             setCurrentLocale(locale);
                             setOpen(false);
                             router.push(pathname, {
-                              locale: supportedLocale,
+                              locale: supportedLocale
                             });
                           }}
                         >
                           <CheckIcon
                             className={cn(
-                              "mr-2 h-4 w-[15%] flex-shrink-0",
+                              'mr-2 h-4 w-[15%] flex-shrink-0',
                               currentLocale === locale
-                                ? "opacity-100"
-                                : "opacity-0",
+                                ? 'opacity-100'
+                                : 'opacity-0'
                             )}
                           />
                           <span className="ml-[5%] flex-grow">

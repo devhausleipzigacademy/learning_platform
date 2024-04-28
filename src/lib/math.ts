@@ -1,3 +1,7 @@
+export function rangeRandom(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
 export function mod(n: number, m: number) {
   return ((n % m) + m) % m;
 }

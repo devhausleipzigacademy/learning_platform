@@ -1,16 +1,16 @@
-import Navbar from "@/components/layout-navigation/navbar";
+import Navbar from '@/components/layout-navigation/navbar';
 
 type MarginalsClientLayoutProps = {
   children: React.ReactNode | React.ReactNode[];
 };
 
 export default function MarginalsClientLayout({
-  children,
+  children
 }: MarginalsClientLayoutProps) {
   return (
     <>
       <div className="flex w-full flex-grow items-start justify-center">
-        <div className="flex h-screen w-[15%] flex-col items-center justify-center ">
+        <div className="border-primary flex h-screen w-[15%] flex-col items-center justify-center border-r-2">
           <Navbar />
         </div>
         <div className="flex h-screen flex-grow flex-col items-center justify-start">

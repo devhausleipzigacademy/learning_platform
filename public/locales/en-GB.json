@@ -1,9 +1,29 @@
 {
-  "UI": {
+  "ui": {
+    "themePicker": {
+      "placeholder": "Choose theme",
+      "themeMap": {
+        "light": {
+          "label": "Light",
+          "aria": "Switch to light mode"
+        },
+        "dark": {
+          "label": "Dark",
+          "aria": "Switch to dark mode"
+        }
+      }
+    },
     "languagePicker": {
+      "aria": "Select language",
       "placeholder": "Select language",
       "noResults": "No results"
     },
+    "commandPalette": {
+      "hint": "Press {symbol} and 'K' to open the command palette"
+    },
     "navLinks": {}
+  },
+  "images": {
+    "devhaus-logo": "Logo of Devhaus Leipzig"
   }
 }
